@@ -69,7 +69,6 @@ class TestQueue(unittest.TestCase):
 		q.push(1)
 		self.assertEqual(q.isEmpty(), False)
 
-
 class TestHash(unittest.TestCase):
 	def test_add(self):
 		h = Hash()
