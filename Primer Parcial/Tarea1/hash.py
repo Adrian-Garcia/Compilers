@@ -1,6 +1,5 @@
 class Hash:
 	def __init__(self):
-		self.size = 0
 		self.keys = []
 		self.data = []
 
@@ -16,8 +15,6 @@ class Hash:
 
 		self.keys.append(key)
 		self.data.append(val)
-
-		self.size += 1
 
 		return True
 
@@ -46,6 +43,5 @@ class Hash:
 
 	def delete(self, key):
 		index = self.position(key)
-		self.size -= 1
 		del self.keys[index]
 		del self.data[index]
