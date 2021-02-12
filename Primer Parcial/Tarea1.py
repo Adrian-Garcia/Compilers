@@ -1,6 +1,6 @@
 '''
 Desarrolla y/o documenta una implementación apropiada para las siguientes clases: STACK (lifo), QUEUE (fifo), 
-TABLE/HASH/DICTIONARY (order),.. (* las puedes implementar “desde 0” o usar alguna librería “pública” *)
+TABLE/HASH/Hash (order),.. (* las puedes implementar “desde 0” o usar alguna librería “pública” *)
 
 Las clases deben contener métodos para soportar las principales operaciones de acceso y manipulación (clásicas).
 '''
@@ -40,7 +40,8 @@ class Stack:
 		return headVal
 
 	def top(self):
-		return self.head.val
+		if self.size:
+			return self.head.val
 
 	def isEmpty(self):
 		return self.size == 0
@@ -78,13 +79,63 @@ class Queue:
 		return headVal
 
 	def front(self):
-		return self.head.val
+		if self.size:
+			return self.head.val
 
 	def isEmpty(self):
 		return self.size == 0
 
-class Dictionary:
-	pass
+class Hash:
+	def __init__(self):
+		self.size = 0
+		self.keys = []
+		self.data = []
+
+	def add(self, key, val):
+		for i in range(len(self.keys)):
+			if self.keys[i] > key:
+				self.keys.insert(i, key)
+				self.data.insert(i, val)
+				return
+
+			elif self.data == val:
+				return
+
+		self.keys.append(key)
+		self.data.append(val)
+
+		self.size += 1
+
+		return True
+
+	def position(self, key):
+		low = 0;
+		top = len(self.keys) - 1
+
+		while low <= top:
+			mid = (top + low) // 2
+
+			if self.keys[mid] < key:
+				low = mid + 1
+
+			elif self.keys[mid] > key:
+				top = mid - 1
+
+			else:
+				return mid
+
+	def get(self, key):
+		return self.data[self.position(key)]
+
+	def printAll(self):
+		for i in range(len(self.keys)):
+			print("  ", self.keys[i], " => ", self.data[i])
+
+	def delete(self, key):
+		index = self.position(key)
+		self.size -= 1
+		del self.keys[index]
+		del self.data[index]
 
 s = Stack()
 s.push(1)
@@ -109,5 +160,19 @@ q.push(6)
 print("\nQueue: ", end="")
 while not q.isEmpty():
 	print(q.pop(), end=" ")
+
+d = Hash()
+d.add(1, "one")
+d.add(2, "two")
+d.add(6, "six")
+d.add(3, "three")
+d.add(5, "five")
+d.add(4, "four")
+d.add(7, "seven")
+
+d.delete(7)
+
+print("\nHash: ", )
+d.printAll()
 
 print()
