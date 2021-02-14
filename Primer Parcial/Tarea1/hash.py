@@ -10,8 +10,8 @@ class Hash:
 				self.data.insert(i, val)
 				return
 
-			elif self.data == val:
-				return
+			elif self.keys[i] == key:
+				self.data[i] = val
 
 		self.keys.append(key)
 		self.data.append(val)

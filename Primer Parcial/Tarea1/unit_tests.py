@@ -72,7 +72,10 @@ class TestQueue(unittest.TestCase):
 class TestHash(unittest.TestCase):
 	def test_add(self):
 		h = Hash()
-		self.assertEqual(h.add(1, 2), True) 
+		self.assertEqual(h.add(1, 2), True)
+		self.assertEqual(h.get(1), 2)
+		h.add(1, 3)
+		self.assertEqual(h.get(1), 3)
 
 	def test_position(self):
 		h = Hash()
