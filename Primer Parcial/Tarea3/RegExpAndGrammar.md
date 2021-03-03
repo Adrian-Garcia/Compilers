@@ -13,9 +13,32 @@ A continuación se describen las reglas sintácticas del lenguaje LittleDuck 202
 ----------------------------------------------------------------
 
 ## Expresiones regulares
-    id          =>      { A | B | ... | Z | a | b | ... | z }
-    cte.string  =>      { A | B | ... | Z | a | b | ... | z }
 
+|         Token          |     Expresion     |
+|------------------------|:-----------------:|
+| inicio de programa     | program           |
+| letras                 | [a-z], [A-Z]      |
+| numero                 | [0-9]             |
+| id                     | letra* numero*    |
+| var                    | letra* numero*    |
+| parentsis izquierdo    | (                 |
+| parentsis derecho      | )                 |
+| llave curva izquierda  | {                 |
+| llave curva derecha    | }                 |
+| igual a                | =                 |
+| mayor a                | >                 |
+| menor a                | <                 |
+| diferente a            | <>                |
+| suma                   | +                 |
+| resta                  | -                 |
+| multiplicacion         | *                 |
+| division               | /                 |
+| print                  | print             |
+| condicional if         | if                |
+| condicional else       | else              |
+| cte string             | "letra*"          |
+| cte entera             | numero*           |
+| cte flotante           | numero* .numero*  |
 
 ## Gramatica
 
@@ -101,5 +124,5 @@ A continuación se describen las reglas sintácticas del lenguaje LittleDuck 202
 
 ### VAR CTE
     id          ->      ε
-    cte l       ->      ε
+    cte i       ->      ε
     cte f       ->      ε
