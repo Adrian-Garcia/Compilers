@@ -1,0 +1,325 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> calc
+Rule 1     calc -> expression
+Rule 2     calc -> var_assign
+Rule 3     calc -> empty
+Rule 4     var_assign -> NAME EQUALS expression
+Rule 5     expression -> expression MULTIPLY expression
+Rule 6     expression -> expression DIVIDE expression
+Rule 7     expression -> expression PLUS expression
+Rule 8     expression -> expression MINUS expression
+Rule 9     expression -> INT
+Rule 10    expression -> FLOAT
+Rule 11    expression -> NAME
+Rule 12    empty -> <empty>
+
+Terminals, with rules where they appear
+
+DIVIDE               : 6
+EQUALS               : 4
+FLOAT                : 10
+INT                  : 9
+MINUS                : 8
+MULTIPLY             : 5
+NAME                 : 4 11
+PLUS                 : 7
+error                : 
+
+Nonterminals, with rules where they appear
+
+calc                 : 0
+empty                : 3
+expression           : 1 4 5 5 6 6 7 7 8 8
+var_assign           : 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . calc
+    (1) calc -> . expression
+    (2) calc -> . var_assign
+    (3) calc -> . empty
+    (5) expression -> . expression MULTIPLY expression
+    (6) expression -> . expression DIVIDE expression
+    (7) expression -> . expression PLUS expression
+    (8) expression -> . expression MINUS expression
+    (9) expression -> . INT
+    (10) expression -> . FLOAT
+    (11) expression -> . NAME
+    (4) var_assign -> . NAME EQUALS expression
+    (12) empty -> .
+
+    INT             shift and go to state 5
+    FLOAT           shift and go to state 6
+    NAME            shift and go to state 7
+    $end            reduce using rule 12 (empty -> .)
+
+    calc                           shift and go to state 1
+    expression                     shift and go to state 2
+    var_assign                     shift and go to state 3
+    empty                          shift and go to state 4
+
+state 1
+
+    (0) S' -> calc .
+
+
+
+state 2
+
+    (1) calc -> expression .
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+    (7) expression -> expression . PLUS expression
+    (8) expression -> expression . MINUS expression
+
+    $end            reduce using rule 1 (calc -> expression .)
+    MULTIPLY        shift and go to state 8
+    DIVIDE          shift and go to state 9
+    PLUS            shift and go to state 10
+    MINUS           shift and go to state 11
+
+
+state 3
+
+    (2) calc -> var_assign .
+
+    $end            reduce using rule 2 (calc -> var_assign .)
+
+
+state 4
+
+    (3) calc -> empty .
+
+    $end            reduce using rule 3 (calc -> empty .)
+
+
+state 5
+
+    (9) expression -> INT .
+
+    MULTIPLY        reduce using rule 9 (expression -> INT .)
+    DIVIDE          reduce using rule 9 (expression -> INT .)
+    PLUS            reduce using rule 9 (expression -> INT .)
+    MINUS           reduce using rule 9 (expression -> INT .)
+    $end            reduce using rule 9 (expression -> INT .)
+
+
+state 6
+
+    (10) expression -> FLOAT .
+
+    MULTIPLY        reduce using rule 10 (expression -> FLOAT .)
+    DIVIDE          reduce using rule 10 (expression -> FLOAT .)
+    PLUS            reduce using rule 10 (expression -> FLOAT .)
+    MINUS           reduce using rule 10 (expression -> FLOAT .)
+    $end            reduce using rule 10 (expression -> FLOAT .)
+
+
+state 7
+
+    (11) expression -> NAME .
+    (4) var_assign -> NAME . EQUALS expression
+
+    MULTIPLY        reduce using rule 11 (expression -> NAME .)
+    DIVIDE          reduce using rule 11 (expression -> NAME .)
+    PLUS            reduce using rule 11 (expression -> NAME .)
+    MINUS           reduce using rule 11 (expression -> NAME .)
+    $end            reduce using rule 11 (expression -> NAME .)
+    EQUALS          shift and go to state 12
+
+
+state 8
+
+    (5) expression -> expression MULTIPLY . expression
+    (5) expression -> . expression MULTIPLY expression
+    (6) expression -> . expression DIVIDE expression
+    (7) expression -> . expression PLUS expression
+    (8) expression -> . expression MINUS expression
+    (9) expression -> . INT
+    (10) expression -> . FLOAT
+    (11) expression -> . NAME
+
+    INT             shift and go to state 5
+    FLOAT           shift and go to state 6
+    NAME            shift and go to state 14
+
+    expression                     shift and go to state 13
+
+state 9
+
+    (6) expression -> expression DIVIDE . expression
+    (5) expression -> . expression MULTIPLY expression
+    (6) expression -> . expression DIVIDE expression
+    (7) expression -> . expression PLUS expression
+    (8) expression -> . expression MINUS expression
+    (9) expression -> . INT
+    (10) expression -> . FLOAT
+    (11) expression -> . NAME
+
+    INT             shift and go to state 5
+    FLOAT           shift and go to state 6
+    NAME            shift and go to state 14
+
+    expression                     shift and go to state 15
+
+state 10
+
+    (7) expression -> expression PLUS . expression
+    (5) expression -> . expression MULTIPLY expression
+    (6) expression -> . expression DIVIDE expression
+    (7) expression -> . expression PLUS expression
+    (8) expression -> . expression MINUS expression
+    (9) expression -> . INT
+    (10) expression -> . FLOAT
+    (11) expression -> . NAME
+
+    INT             shift and go to state 5
+    FLOAT           shift and go to state 6
+    NAME            shift and go to state 14
+
+    expression                     shift and go to state 16
+
+state 11
+
+    (8) expression -> expression MINUS . expression
+    (5) expression -> . expression MULTIPLY expression
+    (6) expression -> . expression DIVIDE expression
+    (7) expression -> . expression PLUS expression
+    (8) expression -> . expression MINUS expression
+    (9) expression -> . INT
+    (10) expression -> . FLOAT
+    (11) expression -> . NAME
+
+    INT             shift and go to state 5
+    FLOAT           shift and go to state 6
+    NAME            shift and go to state 14
+
+    expression                     shift and go to state 17
+
+state 12
+
+    (4) var_assign -> NAME EQUALS . expression
+    (5) expression -> . expression MULTIPLY expression
+    (6) expression -> . expression DIVIDE expression
+    (7) expression -> . expression PLUS expression
+    (8) expression -> . expression MINUS expression
+    (9) expression -> . INT
+    (10) expression -> . FLOAT
+    (11) expression -> . NAME
+
+    INT             shift and go to state 5
+    FLOAT           shift and go to state 6
+    NAME            shift and go to state 14
+
+    expression                     shift and go to state 18
+
+state 13
+
+    (5) expression -> expression MULTIPLY expression .
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+    (7) expression -> expression . PLUS expression
+    (8) expression -> expression . MINUS expression
+
+    MULTIPLY        reduce using rule 5 (expression -> expression MULTIPLY expression .)
+    DIVIDE          reduce using rule 5 (expression -> expression MULTIPLY expression .)
+    PLUS            reduce using rule 5 (expression -> expression MULTIPLY expression .)
+    MINUS           reduce using rule 5 (expression -> expression MULTIPLY expression .)
+    $end            reduce using rule 5 (expression -> expression MULTIPLY expression .)
+
+  ! MULTIPLY        [ shift and go to state 8 ]
+  ! DIVIDE          [ shift and go to state 9 ]
+  ! PLUS            [ shift and go to state 10 ]
+  ! MINUS           [ shift and go to state 11 ]
+
+
+state 14
+
+    (11) expression -> NAME .
+
+    MULTIPLY        reduce using rule 11 (expression -> NAME .)
+    DIVIDE          reduce using rule 11 (expression -> NAME .)
+    PLUS            reduce using rule 11 (expression -> NAME .)
+    MINUS           reduce using rule 11 (expression -> NAME .)
+    $end            reduce using rule 11 (expression -> NAME .)
+
+
+state 15
+
+    (6) expression -> expression DIVIDE expression .
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+    (7) expression -> expression . PLUS expression
+    (8) expression -> expression . MINUS expression
+
+    MULTIPLY        reduce using rule 6 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 6 (expression -> expression DIVIDE expression .)
+    PLUS            reduce using rule 6 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 6 (expression -> expression DIVIDE expression .)
+    $end            reduce using rule 6 (expression -> expression DIVIDE expression .)
+
+  ! MULTIPLY        [ shift and go to state 8 ]
+  ! DIVIDE          [ shift and go to state 9 ]
+  ! PLUS            [ shift and go to state 10 ]
+  ! MINUS           [ shift and go to state 11 ]
+
+
+state 16
+
+    (7) expression -> expression PLUS expression .
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+    (7) expression -> expression . PLUS expression
+    (8) expression -> expression . MINUS expression
+
+    PLUS            reduce using rule 7 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 7 (expression -> expression PLUS expression .)
+    $end            reduce using rule 7 (expression -> expression PLUS expression .)
+    MULTIPLY        shift and go to state 8
+    DIVIDE          shift and go to state 9
+
+  ! MULTIPLY        [ reduce using rule 7 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 7 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 10 ]
+  ! MINUS           [ shift and go to state 11 ]
+
+
+state 17
+
+    (8) expression -> expression MINUS expression .
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+    (7) expression -> expression . PLUS expression
+    (8) expression -> expression . MINUS expression
+
+    PLUS            reduce using rule 8 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 8 (expression -> expression MINUS expression .)
+    $end            reduce using rule 8 (expression -> expression MINUS expression .)
+    MULTIPLY        shift and go to state 8
+    DIVIDE          shift and go to state 9
+
+  ! MULTIPLY        [ reduce using rule 8 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 8 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 10 ]
+  ! MINUS           [ shift and go to state 11 ]
+
+
+state 18
+
+    (4) var_assign -> NAME EQUALS expression .
+    (5) expression -> expression . MULTIPLY expression
+    (6) expression -> expression . DIVIDE expression
+    (7) expression -> expression . PLUS expression
+    (8) expression -> expression . MINUS expression
+
+    $end            reduce using rule 4 (var_assign -> NAME EQUALS expression .)
+    MULTIPLY        shift and go to state 8
+    DIVIDE          shift and go to state 9
+    PLUS            shift and go to state 10
+    MINUS           shift and go to state 11
+
