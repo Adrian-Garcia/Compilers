@@ -117,7 +117,7 @@ def test_lexer():
 
         print(tok)
 
-test_lexer()
+# test_lexer()
 
 # =================================================== SCANNER ===================================================
 
@@ -132,12 +132,13 @@ def p_little_duck(p):
     little_duck : program
                 | empty
     '''
-    print(p[1])
+    print(run(p[1]))
 
 def p_program(p):
     '''
-    program : PROGRAM ID SEMICOLON block_var bloque
+    program : PROGRAM ID COLON block_var bloque
     '''
+    p[0] = (p[1], p[2], p[3], p[4], p[5])
 
 def p_block_var(p):
     '''
@@ -168,7 +169,7 @@ def p_colon(p):
     colon : COLON tipo SEMICOLON var_end
     '''
 
-def p_var_end():
+def p_var_end(p):
     '''
     var_end : for_id
             | bloque
@@ -214,18 +215,19 @@ def p_condicion(p):
     '''
 def p_cond_else(p):
     '''
-    cond_else : ;
+    cond_else : SEMICOLON
               | ELSE bloque SEMICOLON
     '''
 
 # ESCRITURA ------------------------------------------------------------------------------------------------------
 def p_escritura(p):
     '''
-    escritura : PRINT LEFT_PARENTHESIS expr_str RIGHT_PARENTHESIS SEMICOLON 
+    escritura : PRINT LEFT_PARENTHESIS escritura RIGHT_PARENTHESIS SEMICOLON 
     '''
-def p_exp_str(p):
+def p_escritura_exp_str(p):
     '''
-    exp_str : expresion | STRING
+    escritura : expresion
+              | STRING
     '''
 
 # EXPRESION ------------------------------------------------------------------------------------------------------
@@ -244,13 +246,13 @@ def p_comparador(p):
 # EXP ------------------------------------------------------------------------------------------------------
 def p_exp(p):
     '''
-    exp : termino sum_sub
+    exp : termino exp
     '''
 
-def p_sum_sub(p):
+def p_exp_sum_sub(p):
     '''
-    expt : PLUS
-         | MINUS
+    exp : PLUS
+        | MINUS
     '''
 
 # TERMINO ------------------------------------------------------------------------------------------------------
@@ -292,14 +294,17 @@ def p_varcte(p):
            | FLOAT
     '''
 
+def p_error(p):
+    print("Syntax error found!")
+
 def p_empty(p):
     '''
     empty :
     '''
     p[0] = None
 
-# parser = yacc.yacc()
-# env = {}
+parser = yacc.yacc()
+env = {}
 
 def run(p):
     global env
@@ -323,11 +328,11 @@ def run(p):
     else:
         return p
 
-# while True:
-#     try:
-#         s = input('>> ')
+while True:
+    try:
+        s = input('>> ')
     
-#     except EOFError:
-#         break
+    except EOFError:
+        break
 
-#     parser.parse(s)
+    parser.parse(s)

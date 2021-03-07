@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDEDIVIDE EQUALS FLOAT INT MINUS MULTIPLY NAME PLUS\n\tcalc : expression\n\t\t | var_assign\n\t\t | empty\n\t\n\tvar_assign : NAME EQUALS expression\n\t\n\texpression : expression MULTIPLY expression\n\t\t\t   | expression DIVIDE expression\n\t\t\t   | expression PLUS expression\n\t\t\t   | expression MINUS expression\n\t\n\texpression : INT\n\t\t\t   | FLOAT\n\t\n\texpression : NAME\n\t\n\tempty :\n\t'
+_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDEBIGGER_THAN COLON COMA DIVIDE ELSE EQUALS EQUAL_THAN FLOAT ID IF INT LEFT_CURLY_BRACKET LEFT_PARENTHESIS LESS_THAN MINUS MULTIPLY OTHER_THAN PLUS PRINT PROGRAM RIGHT_CURLY_BRACKET RIGHT_PARENTHESIS SEMICOLON STRING VAR\n    little_duck : program\n                | empty\n    \n    program : PROGRAM ID COLON block_var bloque\n    \n    block_var : vars\n              | bloque\n              | empty\n    \n    vars : VAR for_id\n    \n    for_id : ID coma\n           | ID colon\n    \n    coma : COMA for_id\n    \n    colon : COLON tipo SEMICOLON var_end\n    \n    var_end : for_id\n            | bloque\n    \n    bloque : LEFT_CURLY_BRACKET info\n    \n    info : RIGHT_CURLY_BRACKET\n         | estatuto info\n    \n    tipo : INT\n         | FLOAT\n    \n    estatuto : asignacion\n             | condicion\n             | escritura \n    \n    asignacion : ID EQUALS expresion SEMICOLON\n    \n    condicion : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque cond_else\n    \n    cond_else : SEMICOLON\n              | ELSE bloque SEMICOLON\n    \n    escritura : PRINT LEFT_PARENTHESIS escritura RIGHT_PARENTHESIS SEMICOLON \n    \n    escritura : expresion\n              | STRING\n    \n    expresion : exp comparador exp\n    \n    comparador : BIGGER_THAN\n               | LESS_THAN\n               | OTHER_THAN\n    \n    exp : termino exp\n    \n    exp : PLUS\n        | MINUS\n    \n    termino : factor mult_div\n    \n    mult_div : MULTIPLY\n             | DIVIDE\n    \n    factor : for_expr\n           | for_op\n           | varcte\n    \n    for_expr : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS\n    \n    for_op : PLUS varcte\n           | MINUS varcte\n    \n    varcte : ID\n           | INT\n           | FLOAT\n    \n    empty :\n    '
     
-_lr_action_items = {'INT':([0,8,9,10,11,12,],[5,5,5,5,5,5,]),'FLOAT':([0,8,9,10,11,12,],[6,6,6,6,6,6,]),'NAME':([0,8,9,10,11,12,],[7,14,14,14,14,14,]),'$end':([0,1,2,3,4,5,6,7,13,14,15,16,17,18,],[-12,0,-1,-2,-3,-9,-10,-11,-5,-11,-6,-7,-8,-4,]),'MULTIPLY':([2,5,6,7,13,14,15,16,17,18,],[8,-9,-10,-11,-5,-11,-6,8,8,8,]),'DIVIDE':([2,5,6,7,13,14,15,16,17,18,],[9,-9,-10,-11,-5,-11,-6,9,9,9,]),'PLUS':([2,5,6,7,13,14,15,16,17,18,],[10,-9,-10,-11,-5,-11,-6,-7,-8,10,]),'MINUS':([2,5,6,7,13,14,15,16,17,18,],[11,-9,-10,-11,-5,-11,-6,-7,-8,11,]),'EQUALS':([7,],[12,]),}
+_lr_action_items = {'PROGRAM':([0,],[4,]),'$end':([0,1,2,3,13,16,17,42,],[-48,0,-1,-2,-3,-14,-15,-16,]),'ID':([4,11,12,18,19,20,21,23,25,27,29,30,31,40,43,44,47,48,49,50,51,52,55,56,57,66,67,68,75,76,77,80,],[5,15,22,22,-19,-20,-21,-27,46,-28,46,-34,-35,15,46,46,46,46,-30,-31,-32,-33,-36,-37,-38,-29,15,-22,-26,-23,-24,-25,]),'COLON':([5,15,],[6,41,]),'VAR':([6,],[11,]),'LEFT_CURLY_BRACKET':([6,7,8,9,10,14,16,17,38,39,42,58,67,69,71,72,73,78,],[12,12,-5,-4,-6,-7,-14,-15,-8,-9,-16,-10,12,12,-11,-12,-13,12,]),'RIGHT_CURLY_BRACKET':([12,18,19,20,21,23,27,30,31,52,66,68,75,76,77,80,],[17,17,-19,-20,-21,-27,-28,-34,-35,-33,-29,-22,-26,-23,-24,-25,]),'IF':([12,18,19,20,21,23,27,30,31,52,66,68,75,76,77,80,],[24,24,-19,-20,-21,-27,-28,-34,-35,-33,-29,-22,-26,-23,-24,-25,]),'PRINT':([12,18,19,20,21,23,27,30,31,47,52,66,68,75,76,77,80,],[26,26,-19,-20,-21,-27,-28,-34,-35,26,-33,-29,-22,-26,-23,-24,-25,]),'STRING':([12,18,19,20,21,23,27,30,31,47,52,66,68,75,76,77,80,],[27,27,-19,-20,-21,-27,-28,-34,-35,27,-33,-29,-22,-26,-23,-24,-25,]),'PLUS':([12,18,19,20,21,23,25,27,29,30,31,43,44,47,48,49,50,51,52,55,56,57,66,68,75,76,77,80,],[30,30,-19,-20,-21,-27,30,-28,30,-34,-35,30,30,30,30,-30,-31,-32,-33,-36,-37,-38,-29,-22,-26,-23,-24,-25,]),'MINUS':([12,18,19,20,21,23,25,27,29,30,31,43,44,47,48,49,50,51,52,55,56,57,66,68,75,76,77,80,],[31,31,-19,-20,-21,-27,31,-28,31,-34,-35,31,31,31,31,-30,-31,-32,-33,-36,-37,-38,-29,-22,-26,-23,-24,-25,]),'LEFT_PARENTHESIS':([12,18,19,20,21,23,24,25,26,27,29,30,31,43,44,47,48,49,50,51,52,55,56,57,66,68,75,76,77,80,],[25,25,-19,-20,-21,-27,44,25,47,-28,25,-34,-35,25,25,25,25,-30,-31,-32,-33,-36,-37,-38,-29,-22,-26,-23,-24,-25,]),'INT':([12,18,19,20,21,23,25,27,29,30,31,41,43,44,47,48,49,50,51,52,55,56,57,66,68,75,76,77,80,],[36,36,-19,-20,-21,-27,36,-28,36,-34,-35,60,36,36,36,36,-30,-31,-32,-33,-36,-37,-38,-29,-22,-26,-23,-24,-25,]),'FLOAT':([12,18,19,20,21,23,25,27,29,30,31,41,43,44,47,48,49,50,51,52,55,56,57,66,68,75,76,77,80,],[37,37,-19,-20,-21,-27,37,-28,37,-34,-35,61,37,37,37,37,-30,-31,-32,-33,-36,-37,-38,-29,-22,-26,-23,-24,-25,]),'COMA':([15,],[40,]),'SEMICOLON':([16,17,30,31,42,52,59,60,61,62,66,70,74,79,],[-14,-15,-34,-35,-16,-33,67,-17,-18,68,-29,75,77,80,]),'ELSE':([16,17,42,74,],[-14,-15,-16,78,]),'EQUALS':([22,],[43,]),'MULTIPLY':([22,32,33,34,35,36,37,46,53,54,64,],[-45,56,-39,-40,-41,-46,-47,-45,-43,-44,-42,]),'DIVIDE':([22,32,33,34,35,36,37,46,53,54,64,],[-45,57,-39,-40,-41,-46,-47,-45,-43,-44,-42,]),'RIGHT_PARENTHESIS':([23,27,30,31,45,52,63,65,66,75,],[-27,-28,-34,-35,64,-33,69,70,-29,-26,]),'BIGGER_THAN':([28,30,31,52,],[49,-34,-35,-33,]),'LESS_THAN':([28,30,31,52,],[50,-34,-35,-33,]),'OTHER_THAN':([28,30,31,52,],[51,-34,-35,-33,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'calc':([0,],[1,]),'expression':([0,8,9,10,11,12,],[2,13,15,16,17,18,]),'var_assign':([0,],[3,]),'empty':([0,],[4,]),}
+_lr_goto_items = {'little_duck':([0,],[1,]),'program':([0,],[2,]),'empty':([0,6,],[3,10,]),'block_var':([6,],[7,]),'bloque':([6,7,67,69,78,],[8,13,73,74,79,]),'vars':([6,],[9,]),'for_id':([11,40,67,],[14,58,72,]),'info':([12,18,],[16,42,]),'estatuto':([12,18,],[18,18,]),'asignacion':([12,18,],[19,19,]),'condicion':([12,18,],[20,20,]),'escritura':([12,18,47,],[21,21,65,]),'expresion':([12,18,25,43,44,47,],[23,23,45,62,63,23,]),'exp':([12,18,25,29,43,44,47,48,],[28,28,28,52,28,28,28,66,]),'termino':([12,18,25,29,43,44,47,48,],[29,29,29,29,29,29,29,29,]),'factor':([12,18,25,29,43,44,47,48,],[32,32,32,32,32,32,32,32,]),'for_expr':([12,18,25,29,43,44,47,48,],[33,33,33,33,33,33,33,33,]),'for_op':([12,18,25,29,43,44,47,48,],[34,34,34,34,34,34,34,34,]),'varcte':([12,18,25,29,30,31,43,44,47,48,],[35,35,35,35,53,54,35,35,35,35,]),'coma':([15,],[38,]),'colon':([15,],[39,]),'comparador':([28,],[48,]),'mult_div':([32,],[55,]),'tipo':([41,],[59,]),'var_end':([67,],[71,]),'cond_else':([74,],[76,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,17 +26,53 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> calc","S'",1,None,None,None),
-  ('calc -> expression','calc',1,'p_calc','calc.py',57),
-  ('calc -> var_assign','calc',1,'p_calc','calc.py',58),
-  ('calc -> empty','calc',1,'p_calc','calc.py',59),
-  ('var_assign -> NAME EQUALS expression','var_assign',3,'p_var_assign','calc.py',65),
-  ('expression -> expression MULTIPLY expression','expression',3,'p_expression','calc.py',72),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression','calc.py',73),
-  ('expression -> expression PLUS expression','expression',3,'p_expression','calc.py',74),
-  ('expression -> expression MINUS expression','expression',3,'p_expression','calc.py',75),
-  ('expression -> INT','expression',1,'p_expression_int_float','calc.py',81),
-  ('expression -> FLOAT','expression',1,'p_expression_int_float','calc.py',82),
-  ('expression -> NAME','expression',1,'p_expression_var','calc.py',88),
-  ('empty -> <empty>','empty',0,'p_empty','calc.py',97),
+  ("S' -> little_duck","S'",1,None,None,None),
+  ('little_duck -> program','little_duck',1,'p_little_duck','little_duck.py',132),
+  ('little_duck -> empty','little_duck',1,'p_little_duck','little_duck.py',133),
+  ('program -> PROGRAM ID COLON block_var bloque','program',5,'p_program','little_duck.py',139),
+  ('block_var -> vars','block_var',1,'p_block_var','little_duck.py',145),
+  ('block_var -> bloque','block_var',1,'p_block_var','little_duck.py',146),
+  ('block_var -> empty','block_var',1,'p_block_var','little_duck.py',147),
+  ('vars -> VAR for_id','vars',2,'p_vars','little_duck.py',153),
+  ('for_id -> ID coma','for_id',2,'p_for_id','little_duck.py',158),
+  ('for_id -> ID colon','for_id',2,'p_for_id','little_duck.py',159),
+  ('coma -> COMA for_id','coma',2,'p_coma','little_duck.py',164),
+  ('colon -> COLON tipo SEMICOLON var_end','colon',4,'p_colon','little_duck.py',169),
+  ('var_end -> for_id','var_end',1,'p_var_end','little_duck.py',174),
+  ('var_end -> bloque','var_end',1,'p_var_end','little_duck.py',175),
+  ('bloque -> LEFT_CURLY_BRACKET info','bloque',2,'p_bloque','little_duck.py',181),
+  ('info -> RIGHT_CURLY_BRACKET','info',1,'p_info','little_duck.py',186),
+  ('info -> estatuto info','info',2,'p_info','little_duck.py',187),
+  ('tipo -> INT','tipo',1,'p_tipo','little_duck.py',193),
+  ('tipo -> FLOAT','tipo',1,'p_tipo','little_duck.py',194),
+  ('estatuto -> asignacion','estatuto',1,'p_estatuto','little_duck.py',200),
+  ('estatuto -> condicion','estatuto',1,'p_estatuto','little_duck.py',201),
+  ('estatuto -> escritura','estatuto',1,'p_estatuto','little_duck.py',202),
+  ('asignacion -> ID EQUALS expresion SEMICOLON','asignacion',4,'p_asignacion','little_duck.py',208),
+  ('condicion -> IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque cond_else','condicion',6,'p_condicion','little_duck.py',214),
+  ('cond_else -> SEMICOLON','cond_else',1,'p_cond_else','little_duck.py',218),
+  ('cond_else -> ELSE bloque SEMICOLON','cond_else',3,'p_cond_else','little_duck.py',219),
+  ('escritura -> PRINT LEFT_PARENTHESIS escritura RIGHT_PARENTHESIS SEMICOLON','escritura',5,'p_escritura','little_duck.py',225),
+  ('escritura -> expresion','escritura',1,'p_escritura_exp_str','little_duck.py',229),
+  ('escritura -> STRING','escritura',1,'p_escritura_exp_str','little_duck.py',230),
+  ('expresion -> exp comparador exp','expresion',3,'p_expresion','little_duck.py',236),
+  ('comparador -> BIGGER_THAN','comparador',1,'p_comparador','little_duck.py',241),
+  ('comparador -> LESS_THAN','comparador',1,'p_comparador','little_duck.py',242),
+  ('comparador -> OTHER_THAN','comparador',1,'p_comparador','little_duck.py',243),
+  ('exp -> termino exp','exp',2,'p_exp','little_duck.py',249),
+  ('exp -> PLUS','exp',1,'p_exp_sum_sub','little_duck.py',254),
+  ('exp -> MINUS','exp',1,'p_exp_sum_sub','little_duck.py',255),
+  ('termino -> factor mult_div','termino',2,'p_termino','little_duck.py',261),
+  ('mult_div -> MULTIPLY','mult_div',1,'p_mult_div','little_duck.py',266),
+  ('mult_div -> DIVIDE','mult_div',1,'p_mult_div','little_duck.py',267),
+  ('factor -> for_expr','factor',1,'p_factor','little_duck.py',273),
+  ('factor -> for_op','factor',1,'p_factor','little_duck.py',274),
+  ('factor -> varcte','factor',1,'p_factor','little_duck.py',275),
+  ('for_expr -> LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS','for_expr',3,'p_for_expr','little_duck.py',280),
+  ('for_op -> PLUS varcte','for_op',2,'p_for_op','little_duck.py',285),
+  ('for_op -> MINUS varcte','for_op',2,'p_for_op','little_duck.py',286),
+  ('varcte -> ID','varcte',1,'p_varcte','little_duck.py',292),
+  ('varcte -> INT','varcte',1,'p_varcte','little_duck.py',293),
+  ('varcte -> FLOAT','varcte',1,'p_varcte','little_duck.py',294),
+  ('empty -> <empty>','empty',0,'p_empty','little_duck.py',302),
 ]
