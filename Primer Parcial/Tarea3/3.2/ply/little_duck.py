@@ -22,7 +22,7 @@ tokens = [
     'EQUALS',               # asignacion de ids
     'LESS_THAN',            # menor que
     'BIGGER_THAN',          # mayor que
-    'EQUAL_THAN',           # igual que
+    'SAME_AS',              # igual que
     'OTHER_THAN',           # diferente que
     'IF',                   # condicional if
     'ELSE',                 # condicional else
@@ -45,7 +45,7 @@ t_EQUALS = r'\='
 t_OTHER_THAN = r'\<\>'
 t_LESS_THAN = r'\<'
 t_BIGGER_THAN = r'\>'
-t_EQUAL_THAN = r'\=\='
+t_SAME_AS = r'\=\='
 t_LEFT_PARENTHESIS = r'\('
 t_RIGHT_PARENTHESIS = r'\)'
 t_LEFT_CURLY_BRACKET = r'\{'
@@ -127,64 +127,64 @@ precedence = (
 )
 
 # PROGRAMA ------------------------------------------------------------------------------------------------------
-def p_little_duck(p):
-    '''
-    little_duck : program
-                | empty
-    '''
-    print(run(p[1]))
+# def p_little_duck(p):
+#     '''
+#     little_duck : program
+#                 | empty
+#     '''
+#     print("start")
+#     print(run(p[1]))
 
 def p_program(p):
     '''
-    program : PROGRAM ID COLON block_var bloque
+    program : PROGRAM ID COLON program bloque
+            | empty
     '''
-    p[0] = (p[1], p[2], p[3], p[4], p[5])
+    print("program")
 
-def p_block_var(p):
+def p_program_block_var(p):
     '''
-    block_var : vars
-              | bloque
-              | empty
+    program : vars
+            | bloque
     '''
 
 # VARS ----------------------------------------------------------------------------------------------------------
 def p_vars(p):
     '''
-    vars : VAR for_id
+    vars : VAR vars
     '''
 
-def p_for_id(p):
+def p_vars_for_id(p):
     '''
-    for_id : ID coma
-           | ID colon
-    '''
-
-def p_coma(p):
-    '''
-    coma : COMA for_id
+    vars : ID vars
     '''
 
-def p_colon(p):
+def p_vars_coma(p):
     '''
-    colon : COLON tipo SEMICOLON var_end
+    vars : COMA vars
     '''
 
-def p_var_end(p):
+def p_vars_colon(p):
     '''
-    var_end : for_id
-            | bloque
+    vars : COLON tipo SEMICOLON vars
+    '''
+
+def p_vars_var_end(p):
+    '''
+    vars : vars
+         | bloque
     '''
 
 # BLOQUE --------------------------------------------------------------------------------------------------------
 def p_bloque(p):
     '''
-    bloque : LEFT_CURLY_BRACKET info
+    bloque : LEFT_CURLY_BRACKET bloque
     '''
 
-def p_info(p):
+def p_bloque_info(p):
     '''
-    info : RIGHT_CURLY_BRACKET
-         | estatuto info
+    bloque : RIGHT_CURLY_BRACKET
+           | estatuto bloque
     '''
 
 # TIPO ----------------------------------------------------------------------------------------------------------
@@ -211,11 +211,12 @@ def p_asignacion(p):
 # CONDICION ------------------------------------------------------------------------------------------------------
 def p_condicion(p):
     '''
-    condicion : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque cond_else
+    condicion : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque condicion
     '''
-def p_cond_else(p):
+
+def p_condicion_cond_else(p):
     '''
-    cond_else : SEMICOLON
+    condicion : SEMICOLON
               | ELSE bloque SEMICOLON
     '''
 
@@ -224,6 +225,7 @@ def p_escritura(p):
     '''
     escritura : PRINT LEFT_PARENTHESIS escritura RIGHT_PARENTHESIS SEMICOLON 
     '''
+
 def p_escritura_exp_str(p):
     '''
     escritura : expresion
@@ -233,14 +235,14 @@ def p_escritura_exp_str(p):
 # EXPRESION ------------------------------------------------------------------------------------------------------
 def p_expresion(p):
     '''
-    expresion : exp comparador exp
+    expresion : exp expresion exp
     '''
 
-def p_comparador(p):
+def p_expresion_comparador(p):
     '''
-    comparador : BIGGER_THAN
-               | LESS_THAN
-               | OTHER_THAN
+    expresion : BIGGER_THAN
+              | LESS_THAN
+              | OTHER_THAN
     '''
 
 # EXP ------------------------------------------------------------------------------------------------------
@@ -258,31 +260,30 @@ def p_exp_sum_sub(p):
 # TERMINO ------------------------------------------------------------------------------------------------------
 def p_termino(p):
     '''
-    termino : factor mult_div
+    termino : factor termino
     '''
 
-def p_mult_div(p):
+def p_termino_mult_div(p):
     '''
-    mult_div : MULTIPLY
-             | DIVIDE
+    termino : MULTIPLY
+            | DIVIDE
     '''
 
 # FACTOR ------------------------------------------------------------------------------------------------------
 def p_factor(p):
     '''
-    factor : for_expr
-           | for_op
+    factor : factor
            | varcte
     '''
 
-def p_for_expr(p):
+def p_factor_for_expr(p):
     '''
-    for_expr : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
+    factor : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
     '''
 
-def p_for_op(p):
+def p_factor_for_op(p):
     '''
-    for_op : PLUS varcte
+    factor : PLUS varcte
            | MINUS varcte
     '''
 
@@ -326,6 +327,7 @@ def run(p):
                 return env[p[1]]
 
     else:
+        print(p)
         return p
 
 while True:
