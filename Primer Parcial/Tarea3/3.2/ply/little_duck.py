@@ -12,9 +12,9 @@ import sys
 # =================================================== SCANNER ===================================================
 
 tokens = [
-    'PROGRAM'               # program
-    'INT',                  # cte_i
+    'PROGRAM',              # program
     'FLOAT',                # cte_f
+    'INT',                  # cte_i
     'NAME',                 # id
     'PLUS',                 # suma
     'MINUS',                # resta
@@ -24,31 +24,41 @@ tokens = [
     'LESS_THAN',            # menor que
     'BIGGER_THAN',          # mayor que
     'EQUAL_THAN',           # igual que
-    'OTHER_THAN'            # diferente que
+    'OTHER_THAN',            # diferente que
     'IF',                   # condicional if
     'ELSE',                 # condicional else
     'STRING',               # cte.string
     'LEFT_PARENTHESIS',     # parentesis izquierdo
     'RIGHT_PARENTHESIS',    # parentesis derecho
-    'LEFT_CURLY_BRACKET',   # llave izquierda
     'RIGHT_CURLY_BRACKET',  # llave derecha
-    'PRINT'                # print
+    'LEFT_CURLY_BRACKET',   # llave izquierda
+    'PRINT',                # print
+    'SEMICOLON'             # ;
 ]
+
+reserverd = {
+    # 'if' : 'IF',
+    # 'else' : 'ELSE'
+    # 'program' : 'PROGRAM'
+    # 'print' : 'PRINT'
+}
 
 t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_MULTIPLY = r'\*'
 t_DIVIDE = r'\/'
 t_EQUALS = r'\='
+t_OTHER_THAN = r'\<\>'
 t_LESS_THAN = r'\<'
 t_BIGGER_THAN = r'\>'
-t_EQUAL_THAN = r'\=='
+t_EQUAL_THAN = r'\=\='
 t_LEFT_PARENTHESIS = r'\('
 t_RIGHT_PARENTHESIS = r'\)'
 t_LEFT_CURLY_BRACKET = r'\{'
 t_RIGHT_CURLY_BRACKET = r'\}'
+t_SEMICOLON = r'\;'
 
-t_ignore = r' '
+t_ignore  = ' \t'
 
 def t_PROGRAM(t):
     r'program'
@@ -80,9 +90,9 @@ def t_ELSE(t):
     t.type = 'ELSE'
     return t
 
-def t_OTHER_THAN(t):
-    r'<>'
-    t.type = 'OTHER_THAN'
+def t_STRING(t):
+    r'"[a-zA-Z0-9]*"'
+    t.type = 'STRING'
     return t
 
 def t_NAME(t):
@@ -90,21 +100,21 @@ def t_NAME(t):
     t.type = 'NAME'
     return t
 
-def t_STRING(t):
-    r'"[a-zA-Z0-9_ ]*"'
-    t.type = 'STRING'
-    return t
-
 def t_error(t):
-    print("Illegal characters!")
+    print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
 lexer = lex.lex()
-lexer.input("abc = 123.23")
 
-while True:
-    tok = lexer.token()
-    if not tok:
-        break;
+def test_lexer():
 
-    print(tok)
+    lexer.input('if "program" else A')
+
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break;
+
+        print(tok)
+
+test_lexer()
