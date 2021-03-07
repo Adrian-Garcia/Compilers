@@ -43,86 +43,53 @@ A continuación se describen las reglas sintácticas del lenguaje LittleDuck 202
 ## Gramatica
 
 #### PROGRAMA
-    programa    ->      id
-    id          ->      ;
-    ;           ->      Vars | Bloque | ε
-    Vars        ->      Bloque
-    Bloque      ->      ε
+    PROGRAMA    ->      program id ; BLOCK_VAR
+    BLOCK_VAR   ->      VARS | BLOQUE | ε
 
 #### VARS
-    Var         ->      id
-    id          ->      . | ;
-    .           ->      id
-    ;           ->      Tipo
-    Tipo        ->      ;
-    ;           ->      id | ε
+    VARS        ->      var FOR_ID
+    FOR_ID      ->      id COMA | id COLON
+    COMA        ->      , FOR_ID
+    COLON       ->      : TIPO ; VAR_END
+    VAR_END     ->      FOR_ID | BLOQUE
 
 #### BLOQUE
-    Bloque      ->      {
-    {           ->      Estatuto | }
-    Estatuto    ->      } | {
-    }           ->      }
+    BLOQUE      ->      { INFO
+    INFO        ->      } | ESTATUTO INFO
 
 ### TIPO
-    int         ->      ε
-    float       ->      ε
+    TIPO        ->      INT | FLOAT
 
 #### ESTATUTO
     Estatuto    ->      Asignacion | Condicion | Estritura
-    Asignacion  ->      ε
-    Condicion   ->      ε
-    Estritura   ->      ε
 
 #### ASIGNACION
-    Asignacion  ->      id
-    id          ->      =
-    =           ->      Expresion
-    Expresion   ->      ;
-    ;           ->      ε
+    Asignacion  ->      id = EXPRESION ;
 
 #### CONDICION
-    if          ->      (
-    (           ->      Expresion
-    Expresion   ->      )
-    )           ->      Bloque
-    Bloque      ->      else | ;
-    else        ->      Bloque'
-    Bloque'     ->      ;
+    CONDICION   ->      if ( EXPRESION ) BLOQUE COND_ELSE
+    COND_ELSE   ->      ; | else BLOQUE ;
 
 #### ESCRITURA
-    print       ->      (
-    (           ->      cte.string | Expresion
-    cte.string  ->      ) | .
-    Expresion   ->      . | )
-    .           ->      Expresion | cte.string
-    )           ->      ;
-    ;           ->      ε
+    ESCRITURA   ->      print ( EXP_STR ) ;
+    EXP_STR     ->      EXPRESION | cte.string
 
 #### EXPRESION
-    Exp         ->      > | < | <> | ε
-    >           ->      Exp
-    <           ->      Exp
-    <>          ->      Exp
+    EXPRESION   ->      EXP COMPARADOR EXP
+    COMPARADOR  ->      > | < | <> 
 
 #### EXP
-    Termino     ->      + | - | ε
-    +           ->      Termino
-    -           ->      Termino
+    EXP         ->      TERMINO SUM_SUB
+    SUM_SUB     ->      + | -
 
 #### TERMINO
-    Factor      ->      / | * | ε
-    /           ->      Factor
-    *           ->      Factor
+    TERMINO     ->      FACTOR MULT_DIV
+    MULT_DIV    ->      * | /
 
 #### FACTOR
-    (           ->      Expresion
-    +           ->      Var Cte
-    -           ->      Var Cte
-    Var Cte     ->      ε
-    Expresion   ->      )
-    )           ->      ε
+    FACTOR      ->      FOR_EXPR | FOR_OP | VARCTE
+    FOR_EXPR    ->      ( EXPRESION )
+    FOR_OP      ->      + VARCTE | - VARCTE 
 
-### VAR CTE
-    id          ->      ε
-    cte i       ->      ε
-    cte f       ->      ε
+#### VARCTE
+    VARCTE      ->      id | cte_i | cte_f
