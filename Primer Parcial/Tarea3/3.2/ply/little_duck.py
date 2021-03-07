@@ -18,7 +18,8 @@ tokens = [
     'MINUS',                # resta
     'DIVIDE',               # division
     'MULTIPLY',             # multiplicacion
-    'EQUALS',               # igualacion
+    'COLON',                # asignacion de variables
+    'EQUALS',               # asignacion de ids
     'LESS_THAN',            # menor que
     'BIGGER_THAN',          # mayor que
     'EQUAL_THAN',           # igual que
@@ -39,7 +40,8 @@ t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_MULTIPLY = r'\*'
 t_DIVIDE = r'\/'
-t_EQUALS = r'\:'
+t_COLON = r'\:'
+t_EQUALS = r'\='
 t_OTHER_THAN = r'\<\>'
 t_LESS_THAN = r'\<'
 t_BIGGER_THAN = r'\>'
@@ -106,7 +108,7 @@ lexer = lex.lex()
 
 # This function is only for coding, call it at the end of the file for testing if you want
 def test_lexer():
-    lexer.input('program var b, a : 5; if (2<>3) { print ("program") } else { print (1.2) }')
+    lexer.input('program var b, a : 5; if (2<>3) { print ("program") } else { A = 1.2 }')
 
     while True:
         tok = lexer.token()
@@ -134,51 +136,161 @@ def p_little_duck(p):
 
 def p_program(p):
     '''
-    program : PROGRAM ID SEMICOLON program bloque
+    program : PROGRAM ID SEMICOLON block_var bloque
     '''
-    p[0] = ()
 
-def p_program_variable(p):
+def p_block_var(p):
     '''
-    program : vars
-            | empty
+    block_var : vars
+              | bloque
+              | empty
     '''
 
 # VARS ----------------------------------------------------------------------------------------------------------
 def p_vars(p):
     '''
-    vars : VAR vars
+    vars : VAR for_id
     '''
 
-def p_vars_definicion(p):
+def p_for_id(p):
+    '''
+    for_id : ID coma
+           | ID colon
     '''
 
+def p_coma(p):
+    '''
+    coma : COMA for_id
+    '''
+
+def p_colon(p):
+    '''
+    colon : COLON tipo SEMICOLON var_end
+    '''
+
+def p_var_end():
+    '''
+    var_end : for_id
+            | bloque
     '''
 
 # BLOQUE --------------------------------------------------------------------------------------------------------
 def p_bloque(p):
     '''
-    bloque : LEFT_CURLY_BRACKET bloque RIGHT_CURLY_BRACKET
+    bloque : LEFT_CURLY_BRACKET info
     '''
 
-def p_bloque_estatuto(p):
+def p_info(p):
     '''
-    bloque : estatuto
-           | empty
+    info : RIGHT_CURLY_BRACKET
+         | estatuto info
     '''
 
 # TIPO ----------------------------------------------------------------------------------------------------------
+def p_tipo(p):
+    '''
+    tipo : INT
+         | FLOAT
+    '''
 
 # ESTATUTO ------------------------------------------------------------------------------------------------------
-def estatuto(p):
+def p_estatuto(p):
     '''
     estatuto : asignacion
              | condicion
              | escritura 
     '''
 
-def p_expresion():
-    pass
+# ASIGNACION ------------------------------------------------------------------------------------------------------
+def p_asignacion(p):
+    '''
+    asignacion : ID EQUALS expresion SEMICOLON
+    '''
+
+# CONDICION ------------------------------------------------------------------------------------------------------
+def p_condicion(p):
+    '''
+    condicion : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque cond_else
+    '''
+def p_cond_else(p):
+    '''
+    cond_else : ;
+              | ELSE bloque SEMICOLON
+    '''
+
+# ESCRITURA ------------------------------------------------------------------------------------------------------
+def p_escritura(p):
+    '''
+    escritura : PRINT LEFT_PARENTHESIS expr_str RIGHT_PARENTHESIS SEMICOLON 
+    '''
+def p_exp_str(p):
+    '''
+    exp_str : expresion | STRING
+    '''
+
+# EXPRESION ------------------------------------------------------------------------------------------------------
+def p_expresion(p):
+    '''
+    expresion : exp comparador exp
+    '''
+
+def p_comparador(p):
+    '''
+    comparador : BIGGER_THAN
+               | LESS_THAN
+               | OTHER_THAN
+    '''
+
+# EXP ------------------------------------------------------------------------------------------------------
+def p_exp(p):
+    '''
+    exp : termino sum_sub
+    '''
+
+def p_sum_sub(p):
+    '''
+    expt : PLUS
+         | MINUS
+    '''
+
+# TERMINO ------------------------------------------------------------------------------------------------------
+def p_termino(p):
+    '''
+    termino : factor mult_div
+    '''
+
+def p_mult_div(p):
+    '''
+    mult_div : MULTIPLY
+             | DIVIDE
+    '''
+
+# FACTOR ------------------------------------------------------------------------------------------------------
+def p_factor(p):
+    '''
+    factor : for_expr
+           | for_op
+           | varcte
+    '''
+
+def p_for_expr(p):
+    '''
+    for_expr : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
+    '''
+
+def p_for_op(p):
+    '''
+    for_op : PLUS varcte
+           | MINUS varcte
+    '''
+
+# VARCTE ------------------------------------------------------------------------------------------------------
+def p_varcte(p):
+    '''
+    varcte : ID
+           | INT
+           | FLOAT
+    '''
 
 def p_empty(p):
     '''

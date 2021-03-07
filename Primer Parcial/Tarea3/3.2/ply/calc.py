@@ -64,7 +64,7 @@ def p_var_assign(p):
 	'''
 	var_assign : NAME EQUALS expression
 	'''
-	p[0] = ('=', p[1], p[3])
+	p[0] = (p[2], p[1], p[3])
 
 
 def p_expression(p):
