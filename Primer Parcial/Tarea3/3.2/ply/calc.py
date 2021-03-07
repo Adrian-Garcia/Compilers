@@ -2,6 +2,8 @@ import ply.lex as lex			# Scanner, reconoce textos
 import ply.yacc as yacc			# Parser, verifica que los textos estén correctamente ordenados (syntaxis)
 import sys
 
+# =================================================== SCANNER ===================================================
+
 tokens = [
 
 	'INT',			# Entero
@@ -19,6 +21,7 @@ t_MINUS = r'\-'
 t_MULTIPLY = r'\*'
 t_DIVIDE = r'\/'
 t_EQUALS = r'\='
+
 t_ignore = r' '
 
 def t_FLOAT(t):
@@ -96,8 +99,10 @@ def p_empty(p):
 	p[0] = None
 
 parser = yacc.yacc()
+env = {}
 
 def run(p):
+	global env
 	if type(p) == tuple:
 		if p[0] == '+':
 			return run(p[1]) + run(p[2])
@@ -107,6 +112,13 @@ def run(p):
 			return run(p[1]) * run(p[2])
 		elif p[0] == '/':
 			return run(p[1]) / run(p[2])
+		elif p[0] == '=':
+			env[p[1]] = run(p[2])
+		elif p[0] == 'var':
+			if p[1] not in env:
+				return 'Undeclared viariable found!'
+			else:
+				return env[p[1]]
 	else:
 		return p
 
@@ -118,6 +130,3 @@ while True:
 		break
 
 	parser.parse(s)
-
-
-
