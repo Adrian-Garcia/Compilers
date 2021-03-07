@@ -43,19 +43,10 @@ A continuación se describen las reglas sintácticas del lenguaje LittleDuck 202
 ## Gramatica
 
 #### PROGRAMA
-    programa    ->      id 
-    id          ->      ;
-    ;           ->      Vars | Bloque | ε
-    Vars        ->      Bloque
-    Bloque      ->      ε
+    programa    ->      programa id ; var VARS BLOQUE
 
 #### VARS
-    Var         ->      id
-    id          ->      . | ;
-    .           ->      id
-    ;           ->      Tipo
-    Tipo        ->      ;
-    ;           ->      id | ε
+    vars        ->      var 
 
 #### BLOQUE
     Bloque      ->      {
