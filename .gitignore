@@ -53,3 +53,5 @@ docs/_build/
 parser.out
 parsetab.py
 
+node_modules/
+
