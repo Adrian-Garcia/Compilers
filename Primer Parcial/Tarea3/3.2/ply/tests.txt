@@ -1,0 +1,14 @@
+asignacion
+	program a : { b = 2 > 3; }
+
+condicion
+	program a : { if ( a ) { print("asd"); } }
+	program a : { if ( a < 3 ) { d = 2; } else { a = 3 } }
+
+escritura
+	program a : { print("hello"); }
+	program a : { print("hello", "bye"); }
+	program a : { print("hello", C); }
+
+vars al inicio
+	program a : var b, a : 1.2; {}

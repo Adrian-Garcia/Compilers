@@ -75,7 +75,9 @@ A continuación se describen las reglas sintácticas del lenguaje LittleDuck 202
     EXP_STR     ->      EXPRESION | cte.string
 
 #### EXPRESION
-    EXPRESION   ->      EXP COMPARADOR EXP
+    EXPRESION   ->      EXP SEMICOL_OP
+    SEMICOL_OP  ->      ε | FOR_COMP
+    FOR_COMP    ->      COMPARADOR EXP
     COMPARADOR  ->      > | < | <> 
 
 #### EXP

@@ -1,6 +1,6 @@
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------
 # little_duck programming language scanner and parser using ply
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------
 
 import ply.lex as lex           # Scanner, reconoce textos
 import ply.yacc as yacc         # Parser, verifica que los textos estén correctamente ordenados (syntaxis)
@@ -185,14 +185,14 @@ def p_var_end(p):
 # BLOQUE --------------------------------------------------------------------------------------------------------
 def p_bloque(p):
   '''
-  bloque : LEFT_CURLY_BRACKET info
+  bloque : LEFT_CURLY_BRACKET info RIGHT_CURLY_BRACKET
   '''
   p[0] = None
 
 def p_info(p):
   '''
-  info : RIGHT_CURLY_BRACKET
-       | estatuto bloque
+  info : estatuto info
+       | empty
   '''
   p[0] = None
 
@@ -213,28 +213,29 @@ def p_estatuto(p):
   '''
   p[0] = None
 
-# ASIGNACION ------------------------------------------------------------------------------------------------------
+# ASIGNACION ----------------------------------------------------------------------------------------------------
 def p_asignacion(p):
   '''
   asignacion : ID EQUALS expresion SEMICOLON
   '''
   p[0] = None
 
-# CONDICION ------------------------------------------------------------------------------------------------------
+# CONDICION -----------------------------------------------------------------------------------------------------
 def p_condicion(p):
   '''
-  condicion : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque cond_else
+  condicion : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque cond_else SEMICOLON
   '''
   p[0] = None
 
 def p_cond_else(p):
   '''
-  cond_else : SEMICOLON
-            | ELSE bloque SEMICOLON
+  cond_else : ELSE bloque
+            | empty
   '''
   p[0] = None
 
-# ESCRITURA ------------------------------------------------------------------------------------------------------
+## Falta
+# ESCRITURA -----------------------------------------------------------------------------------------------------
 def p_escritura(p):
   '''
   escritura : PRINT LEFT_PARENTHESIS exp_str RIGHT_PARENTHESIS SEMICOLON 
@@ -243,28 +244,31 @@ def p_escritura(p):
 
 def p_exp_str(p):
   '''
-  exp_str : expresion
+  exp_str : expresion COMA
+          | STRING COMA
+          | expresion
           | STRING
   '''
   p[0] = None
 
-# EXPRESION ------------------------------------------------------------------------------------------------------
+# EXPRESION -----------------------------------------------------------------------------------------------------
 def p_expresion(p):
   '''
-  expresion : exp comparador exp
+  expresion : exp comparador 
   '''
   p[0] = None
 
 def p_expresion_comparador(p):
   '''
-  comparador : BIGGER_THAN
-             | LESS_THAN
-             | OTHER_THAN
-             | SAME_AS
+  comparador : BIGGER_THAN exp
+             | LESS_THAN exp
+             | OTHER_THAN exp
+             | SAME_AS exp
+             | empty
   '''
   p[0] = None
 
-# EXP ------------------------------------------------------------------------------------------------------
+# EXP -----------------------------------------------------------------------------------------------------------
 def p_exp(p):
   '''
   exp : termino sum_sub
@@ -278,7 +282,7 @@ def p_sum_sub(p):
   '''
   p[0] = None
 
-# TERMINO ------------------------------------------------------------------------------------------------------
+# TERMINO -------------------------------------------------------------------------------------------------------
 def p_termino(p):
   '''
   termino : factor mult_div
@@ -292,7 +296,7 @@ def p_mult_div(p):
   '''
   p[0] = None
 
-# FACTOR ------------------------------------------------------------------------------------------------------
+# FACTOR --------------------------------------------------------------------------------------------------------
 def p_factor(p):
   '''
   factor : for_expr
@@ -314,7 +318,7 @@ def p_for_op(p):
   '''
   p[0] = None
 
-# VARCTE ------------------------------------------------------------------------------------------------------
+# VARCTE --------------------------------------------------------------------------------------------------------
 def p_varcte(p):
   '''
   varcte : ID
@@ -330,29 +334,8 @@ def p_empty(p):
   p[0] = None
 
 parser = yacc.yacc()
-# env = {}
 
 def run(p):
-  # global env
-  # if type(p) == tuple:
-  #   if p[0] == '+':
-  #     return run(p[1]) + run(p[2])
-  #   elif p[0] == '-':
-  #     return run(p[1]) - run(p[2])
-  #   elif p[0] == '*':
-  #     return run(p[1]) * run(p[2])
-  #   elif p[0] == '/':
-  #     return run(p[1]) / run(p[2])
-  #   elif p[0] == '=':
-  #     env[p[1]] = run(p[2])
-  #   elif p[0] == 'var':
-  #     if p[1] not in env:
-  #       return 'Undeclared viariable found!'
-  #     else:
-  #       return env[p[1]]
-
-  # else:
-  #   print(p)
     return p
 
 while True:
