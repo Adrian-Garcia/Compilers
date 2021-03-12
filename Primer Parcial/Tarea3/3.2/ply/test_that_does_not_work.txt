@@ -1,0 +1,3 @@
+program
+program a : { print("hello"); }
+program { if (something) }

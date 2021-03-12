@@ -53,7 +53,7 @@ t_RIGHT_CURLY_BRACKET = r'\}'
 t_COMA = r'\,'
 t_SEMICOLON = r'\;'
 
-t_ignore  = ' \t'
+t_ignore  = ' \t\n'
 
 def t_PROGRAM(t):
   r'program'
@@ -234,7 +234,6 @@ def p_cond_else(p):
   '''
   p[0] = None
 
-## Falta
 # ESCRITURA -----------------------------------------------------------------------------------------------------
 def p_escritura(p):
   '''
@@ -338,11 +337,20 @@ parser = yacc.yacc()
 def run(p):
     return p
 
-while True:
-  try:
-    s = input('>> ')
-  
-  except EOFError:
-    break
+def read(file_name):
+  file = open(file_name)
 
-  parser.parse(s)
+  print("\nErrors on {}:".format(file_name))
+
+  while True:
+
+    line = file.readline()
+
+    if (line):
+      parser.parse(line)
+    else: 
+      break
+
+read("test_that_works.txt")
+read("test_that_does_not_work.txt")
+

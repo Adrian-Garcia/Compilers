@@ -1,0 +1,3 @@
+program a : { print("hello"); }
+program a : { }
+program a : var b, a : 1.2; {}
