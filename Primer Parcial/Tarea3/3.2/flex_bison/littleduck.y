@@ -13,37 +13,59 @@ int yyerror();
 %token ID
 
 %%
-program: PROGRAM ID SEMICOLON | PROGRAM ID SEMICOLON var bloque;
+little_duck: program;
 
-var: VAR var1;
+program: PROGRAM ID COLON block_var;
 
-var1: ID COMA var1 | ID COLON INT SEMICOLON var1 | ID COLON FLOAT SEMICOLON var1 |;
+block_var: vars | bloque;
 
-bloque: LEFT_CURLY_BRACKET bloque1;
+vars: VAR for_id;
 
-bloque1: estatuto bloque1 | RIGHT_CURLY_BRACKET;
+for_id: ID coma | ID colon;
 
-expresion: exp | exp BIGGER_THAN exp | exp LESS_THAN exp | exp OTHER_THAN exp;
+coma: COMA for_id;
 
-exp: termino | termino PLUS exp | termino MINUS exp;
+colon: COLON tipo SEMICOLON var_end;
 
-termino: factor | factor MULTIPLY termino | factor DIVIDE termino;
+var_end: for_id | bloque;
 
-factor: LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS | PLUS varcte | MINUS varcte | varcte;
+bloque: LEFT_CURLY_BRACKET info RIGHT_CURLY_BRACKET;
 
-estatuto: asignatura | condicion | escritura;
+info: estatuto info |;
 
-condicion: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque SEMICOLON | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque ELSE bloque SEMICOLON;
+tipo: INT | FLOAT;
 
-asignatura: ID EQUALS expresion SEMICOLON;
+estatuto: asignacion | condicion | escritura;
 
-varcte: ID | INT | FLOAT;
- 
-escritura: PRINT LEFT_PARENTHESIS escritura1;
+asignacion: ID EQUALS expresion SEMICOLON;
 
-escritura1: expresion escritura2 | STRING escritura2;
+condicion: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque cond_else SEMICOLON;
 
-escritura2: COMA escritura1 | RIGHT_PARENTHESIS SEMICOLON;
+cond_else: ELSE bloque | ;
+
+escritura: PRINT LEFT_PARENTHESIS expr_str RIGHT_PARENTHESIS SEMICOLON;
+
+expr_str: expresion COMA | STRING COMA | expresion | STRING;
+
+expresion: exp comparador;
+
+comparador: BIGGER_THAN exp | LESS_THAN exp | OTHER_THAN exp | SAME_AS exp |;
+
+exp: termino sum_sub;
+
+sum_sub: PLUS | MINUS;
+
+termino: factor mult_div;
+
+mult_div: MULTIPLY | DIVIDE;
+
+factor: for_expr | for_op | varcte;
+
+for_expr: LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS;
+
+for_op: PLUS varcte | MINUS varcte;
+
+varcte : ID | INT | FLOAT;
 
 %%
 

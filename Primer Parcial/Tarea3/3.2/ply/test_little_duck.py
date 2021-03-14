@@ -127,202 +127,122 @@ precedence = (
 )
 
 # PROGRAMA ------------------------------------------------------------------------------------------------------
-def p_little_duck(p):
+def p_program(p) :
   '''
-  little_duck : program empty
-              | empty
+  program : PROGRAM ID SEMICOLON
+          | PROGRAM ID COLON var bloque
   '''
   run(p[1])
 
-def p_program(p) :
+def p_var(p):
   '''
-  program : PROGRAM ID COLON block_var
-  '''
-  # p[0] = (p[1], p[2], p[3], p[4])
-  p[0] = None
-
-def p_block_var(p):
-  '''
-  block_var : vars
-            | bloque
-  '''
-  # p[0] = p[1], p[2]
-  p[0] = None
-
-# VARS ----------------------------------------------------------------------------------------------------------
-def p_vars(p):
-  '''
-  vars : VAR for_id
+  var : VAR var1
   '''
   p[0] = None
 
-def p_for_id(p):
+def p_var1(p):
   '''
-  for_id : ID coma
-         | ID colon
-  '''
-  p[0] = None
-
-def p_coma(p):
-  '''
-  coma : COMA for_id
-  '''
-  p[0] = None
-
-def p_colon(p):
-  '''
-  colon : COLON tipo SEMICOLON var_end
-  '''
-  p[0] = None
-
-def p_var_end(p):
-  '''
-  var_end : for_id
-          | bloque
-  '''
-  p[0] = None
-
-# BLOQUE --------------------------------------------------------------------------------------------------------
-def p_bloque(p):
-  '''
-  bloque : LEFT_CURLY_BRACKET info RIGHT_CURLY_BRACKET
-  '''
-  p[0] = None
-
-def p_info(p):
-  '''
-  info : estatuto info
+  var1 : ID COMA var1
+       | ID COLON INT SEMICOLON var1
+       | ID COLON FLOAT SEMICOLON var1
        | empty
   '''
   p[0] = None
 
-# TIPO ----------------------------------------------------------------------------------------------------------
-def p_tipo(p):
+def p_bloque(p):
   '''
-  tipo : INT
-       | FLOAT
+  bloque : LEFT_CURLY_BRACKET bloque1
   '''
   p[0] = None
 
-# ESTATUTO ------------------------------------------------------------------------------------------------------
-def p_estatuto(p):
+def p_bloque1(p):
   '''
-  estatuto : asignacion
-           | condicion
-           | escritura 
+  bloque1 : estatuto bloque1
+          | RIGHT_CURLY_BRACKET
   '''
   p[0] = None
 
-# ASIGNACION ----------------------------------------------------------------------------------------------------
-def p_asignacion(p):
-  '''
-  asignacion : ID EQUALS expresion SEMICOLON
-  '''
-  p[0] = None
-
-# CONDICION -----------------------------------------------------------------------------------------------------
-def p_condicion(p):
-  '''
-  condicion : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque cond_else SEMICOLON
-  '''
-  p[0] = None
-
-def p_cond_else(p):
-  '''
-  cond_else : ELSE bloque
-            | empty
-  '''
-  p[0] = None
-
-# ESCRITURA -----------------------------------------------------------------------------------------------------
-def p_escritura(p):
-  '''
-  escritura : PRINT LEFT_PARENTHESIS exp_str RIGHT_PARENTHESIS SEMICOLON 
-  '''
-  p[0] = None
-
-def p_exp_str(p):
-  '''
-  exp_str : expresion COMA
-          | STRING COMA
-          | expresion
-          | STRING
-  '''
-  p[0] = None
-
-# EXPRESION -----------------------------------------------------------------------------------------------------
 def p_expresion(p):
   '''
-  expresion : exp comparador 
+  expresion : exp 
+            | exp BIGGER_THAN exp
+            | exp LESS_THAN exp
+            | exp OTHER_THAN exp
+            | exp SAME_AS exp
   '''
   p[0] = None
 
-def p_comparador(p):
-  '''
-  comparador : BIGGER_THAN exp
-             | LESS_THAN exp
-             | OTHER_THAN exp
-             | SAME_AS exp
-             | empty
-  '''
-  p[0] = None
-
-# EXP -----------------------------------------------------------------------------------------------------------
 def p_exp(p):
   '''
-  exp : termino sum_sub
+  exp : termino
+      | exp PLUS exp
+      | exp MINUS exp
   '''
   p[0] = None
 
-def p_sum_sub(p):
-  '''
-  sum_sub : PLUS
-          | MINUS
-  '''
-  p[0] = None
-
-# TERMINO -------------------------------------------------------------------------------------------------------
 def p_termino(p):
   '''
-  termino : factor mult_div
+  termino : factor
+          | factor MULTIPLY factor
+          | factor DIVIDE factor
   '''
   p[0] = None
 
-def p_mult_div(p):
-  '''
-  mult_div : MULTIPLY
-           | DIVIDE
-  '''
-  p[0] = None
-
-# FACTOR --------------------------------------------------------------------------------------------------------
 def p_factor(p):
   '''
-  factor : for_expr
-         | for_op
+  factor : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
+         | PLUS varcte
+         | MINUS varcte
          | varcte
   '''
   p[0] = None
 
-def p_for_expr(p):
+def p_estatuto(p):
   '''
-  for_expr : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
-  '''
-  p[0] = None
-
-def p_for_op(p):
-  '''
-  for_op : PLUS varcte
-         | MINUS varcte
+  estatuto : asignatura
+           | condicion
+           | escritura
   '''
   p[0] = None
 
-# VARCTE --------------------------------------------------------------------------------------------------------
+def p_condicion(p):
+  '''
+  condicion : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque SEMICOLON
+            | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS bloque ELSE bloque SEMICOLON
+  '''
+  p[0] = None
+
+def p_asignatura(p):
+  '''
+  asignatura : ID EQUALS expresion SEMICOLON
+  '''
+  p[0] = None
+
 def p_varcte(p):
   '''
   varcte : ID
          | INT
          | FLOAT
+  '''
+  p[0] = None
+
+def p_escritura(p):
+  '''
+  escritura : PRINT RIGHT_PARENTHESIS escritura1
+  '''
+  p[0] = None
+
+def p_escritura1(p):
+  '''
+  escritura1 : expresion escritura2
+             | STRING escritura2
+  '''
+  p[0] = None
+
+def p_escritura2(p):
+  '''
+  escritura2 : COMA escritura1
+             | LEFT_PARENTHESIS SEMICOLON
   '''
   p[0] = None
 
